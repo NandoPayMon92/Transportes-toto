@@ -110,7 +110,7 @@ export async function enlaceRestablecimiento(actor: Actor, id: string) {
   const u = await prisma.user.findUnique({ where: { id } });
   if (!u) throw new NoEncontrado("Usuario inexistente.");
   const { token, expiresAt } = await generarTokenRestablecimiento(id);
-  const base = process.env.APP_URL ?? "";
+  const base = process.env.APP_URL ?? process.env.RENDER_EXTERNAL_URL ?? "";
   return { enlace: `${base}/restablecer?token=${encodeURIComponent(token)}`, expiresAt: expiresAt.toISOString() };
 }
 

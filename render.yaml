@@ -1,0 +1,40 @@
+# Blueprint de Render: app web + base PostgreSQL.
+# Render pide al crearlo los valores marcados con "sync: false".
+services:
+  - type: web
+    name: transportes-toto
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm ci --include=dev && npx prisma generate && npm run build
+    # Aplica migraciones, datos iniciales y (opcional) demo/admin, y arranca.
+    startCommand: npx tsx scripts/arranque.ts && npm start
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: transportes-toto-db
+          property: connectionString
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: SESSION_TTL_HOURS
+        value: "12"
+      # Carga datos ficticios de demostración. Pasar a "false" antes de usar datos reales.
+      - key: CARGAR_DEMO
+        value: "true"
+      # Primer administrador: se crea sólo si no existe. Debe cambiar la contraseña al ingresar.
+      - key: ADMIN_USUARIO
+        value: admin
+      - key: ADMIN_CLAVE
+        sync: false
+
+databases:
+  - name: transportes-toto-db
+    plan: free
+    region: oregon
+    databaseName: toto
+    user: toto

@@ -162,6 +162,19 @@ docker compose exec app npx tsx scripts/crear-admin.ts --usuario admin --nombre 
 
 Al arrancar, el contenedor aplica las migraciones y los datos iniciales. En producción, detrás de HTTPS, defina `COOKIE_SECURE=true` y `APP_URL` con la URL pública.
 
+## Publicar en Render
+
+El archivo `render.yaml` define la app web y la base PostgreSQL.
+
+1. En render.com: **New → Blueprint**, elegir el repositorio y la rama.
+2. Render pide `ADMIN_CLAVE`: es la contraseña inicial del usuario `admin` (mínimo 10 caracteres, con letras y números). Ese usuario deberá cambiarla al ingresar.
+3. En cada inicio, `scripts/arranque.ts` aplica migraciones y datos iniciales y crea el administrador si no existe. Si `CARGAR_DEMO=true`, también carga los datos de demostración.
+
+**Antes de cargar datos reales:**
+- Ponga `CARGAR_DEMO=false`.
+- Desactive los usuarios `demo.*` en *Usuarios*: su contraseña es pública en este README.
+- Pase de los planes gratuitos a pagos: la base gratuita de Render vence y la app gratuita se suspende si no se usa.
+
 ## Roles y permisos
 
 La matriz está en `src/lib/permisos.ts`. El backend la aplica en cada servicio; la interfaz sólo la usa para ocultar opciones.
