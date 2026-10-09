@@ -23,6 +23,9 @@ export function normalizeDecimalInput(raw: string): string {
   if (s.includes(",")) {
     // Formato uruguayo: punto de miles, coma decimal.
     s = s.replace(/\./g, "").replace(",", ".");
+  } else if (/^-?\d{1,3}(\.\d{3})+$/.test(s)) {
+    // "30.000" o "1.250.000": en Uruguay el punto agrupa miles (no es un decimal).
+    s = s.replace(/\./g, "");
   }
   return s;
 }

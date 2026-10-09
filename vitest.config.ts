@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     include: ["tests/unit/**/*.test.ts", "tests/integration/**/*.test.ts"],
     setupFiles: ["tests/setup-env.ts"],
+    globalSetup: ["tests/global-setup.ts"],
     // Las pruebas de integración comparten una base de datos: se ejecutan en serie.
     fileParallelism: false,
     testTimeout: 30000,

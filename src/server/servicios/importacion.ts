@@ -4,7 +4,7 @@ import { AppError, ErrorValidacion } from "@/server/errores";
 import { exigir } from "./autorizacion";
 import { crearTarifa } from "./tarifas";
 import type { Actor } from "@/lib/permisos";
-import type { FilaImportacion } from "@/server/excel";
+import { normalizarFecha, type FilaImportacion } from "@/server/excel";
 
 async function buscarOCrearLugar(tx: Tx, nombre: string, uso: "carga" | "descarga", creados: string[]) {
   const existente = await tx.location.findFirst({ where: { nombre: { equals: nombre, mode: "insensitive" } } });
@@ -56,8 +56,8 @@ export async function importarTarifas(actor: Actor, filas: FilaImportacion[]) {
                 origenId: f.origen ? await buscarOCrearLugar(tx, f.origen, "carga", creados) : null,
                 destinoId: f.destino ? await buscarOCrearLugar(tx, f.destino, "descarga", creados) : null,
                 cargoTypeId: f.carga ? await buscarOCrearCarga(tx, f.carga, creados) : null,
-                vigenciaDesde: f.vigenciaDesde,
-                vigenciaHasta: f.vigenciaHasta || null,
+                vigenciaDesde: normalizarFecha(f.vigenciaDesde),
+                vigenciaHasta: f.vigenciaHasta ? normalizarFecha(f.vigenciaHasta) : null,
                 activo: true,
                 observaciones: f.observaciones || null,
               },

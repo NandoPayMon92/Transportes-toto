@@ -38,6 +38,10 @@ describe("cálculo de kilogramos", () => {
     expect(normalizeDecimalInput("1.234,56")).toBe("1234.56");
     expect(normalizeDecimalInput("1234,5")).toBe("1234.5");
     expect(normalizeDecimalInput(" 1234.5 ")).toBe("1234.5");
+    // Punto como separador de miles (uso habitual en Uruguay)
+    expect(normalizeDecimalInput("30.000")).toBe("30000");
+    expect(normalizeDecimalInput("1.250.000")).toBe("1250000");
+    expect(normalizeDecimalInput("30.5")).toBe("30.5");
   });
 });
 

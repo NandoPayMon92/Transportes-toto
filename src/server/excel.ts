@@ -257,7 +257,7 @@ function celdaTexto(v: ExcelJS.CellValue): string {
 }
 
 /** Acepta fechas reales de Excel, AAAA-MM-DD o dd/mm/aaaa. */
-function normalizarFecha(s: string): string {
+export function normalizarFecha(s: string): string {
   const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   if (m) return `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
   return s;

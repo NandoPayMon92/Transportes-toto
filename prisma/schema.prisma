@@ -164,18 +164,18 @@ model Setting {
 model Tariff {
   id             String               @id @default(cuid())
   clientId       String
-  client         Client               @relation(fields: [clientId], references: [id])
+  client         Client               @relation(fields: [clientId], references: [id], onDelete: Restrict)
   modalidad      ModalidadFacturacion
   importe        Decimal              @db.Decimal(14, 4)
   moneda         String               @default("UYU") @db.VarChar(3)
   unidad         UnidadTarifa?
   baseCalculo    BaseCalculo?
   origenId       String?
-  origen         Location?            @relation("TariffOrigin", fields: [origenId], references: [id])
+  origen         Location?            @relation("TariffOrigin", fields: [origenId], references: [id], onDelete: Restrict)
   destinoId      String?
-  destino        Location?            @relation("TariffDestination", fields: [destinoId], references: [id])
+  destino        Location?            @relation("TariffDestination", fields: [destinoId], references: [id], onDelete: Restrict)
   cargoTypeId    String?
-  cargoType      CargoType?           @relation(fields: [cargoTypeId], references: [id])
+  cargoType      CargoType?           @relation(fields: [cargoTypeId], references: [id], onDelete: Restrict)
   vigenciaDesde  DateTime             @db.Date
   vigenciaHasta  DateTime?            @db.Date
   activo         Boolean              @default(true)
@@ -216,18 +216,18 @@ model Trip {
   fecha   DateTime @db.Date
 
   vehicleId   String?
-  vehicle     Vehicle?   @relation(fields: [vehicleId], references: [id])
+  vehicle     Vehicle?   @relation(fields: [vehicleId], references: [id], onDelete: Restrict)
   clientId    String?
-  client      Client?    @relation(fields: [clientId], references: [id])
+  client      Client?    @relation(fields: [clientId], references: [id], onDelete: Restrict)
   driverId    String?
-  driver      Driver?    @relation(fields: [driverId], references: [id])
+  driver      Driver?    @relation(fields: [driverId], references: [id], onDelete: Restrict)
   cargoTypeId String?
-  cargoType   CargoType? @relation(fields: [cargoTypeId], references: [id])
+  cargoType   CargoType? @relation(fields: [cargoTypeId], references: [id], onDelete: Restrict)
   cargaDetalle String?
   origenId    String?
-  origen      Location?  @relation("TripOrigin", fields: [origenId], references: [id])
+  origen      Location?  @relation("TripOrigin", fields: [origenId], references: [id], onDelete: Restrict)
   destinoId   String?
-  destino     Location?  @relation("TripDestination", fields: [destinoId], references: [id])
+  destino     Location?  @relation("TripDestination", fields: [destinoId], references: [id], onDelete: Restrict)
 
   kgSalida             Decimal? @db.Decimal(12, 2)
   kgLlegada            Decimal? @db.Decimal(12, 2)
@@ -246,7 +246,7 @@ model Trip {
 
   // Tarifa: referencia + copia (snapshot) congelada al cerrar
   tariffId              String?
-  tariff                Tariff?               @relation(fields: [tariffId], references: [id])
+  tariff                Tariff?               @relation(fields: [tariffId], references: [id], onDelete: Restrict)
   tarifaModalidad       ModalidadFacturacion?
   tarifaImporte         Decimal?              @db.Decimal(14, 4)
   tarifaUnidad          UnidadTarifa?

@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --color-marca-50: #eef4fa;
+  --color-marca-100: #d6e4f2;
+  --color-marca-600: #24507f;
+  --color-marca-700: #1e3a5f;
+  --color-marca-800: #172d4a;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+}
+
+/* Foco visible y de alto contraste para navegación con teclado */
+:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+}
+
+/* Evita el zoom automático de iOS en campos (font-size >= 16px) */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 15px;
+  }
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

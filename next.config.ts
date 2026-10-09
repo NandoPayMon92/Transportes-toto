@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Salida autónoma sólo para la imagen Docker (BUILD_STANDALONE=1).
+  output: process.env.BUILD_STANDALONE === "1" ? "standalone" : undefined,
   poweredByHeader: false,
   serverExternalPackages: ["exceljs"],
   async headers() {
